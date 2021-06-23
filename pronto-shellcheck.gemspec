@@ -2,7 +2,6 @@
 
 $LOAD_PATH.push File.expand_path('../lib', __FILE__)
 require 'pronto/shellcheck_version'
-require 'rake'
 
 Gem::Specification.new do |s|
   s.name = 'pronto-shellcheck'
@@ -16,7 +15,9 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 2.0.0'
   s.rubygems_version = '2.5.1'
 
-  s.files = FileList['README.md', 'lib/**/*']
+  s.files = `git ls-files -z`.split("\x0").select do |f|
+    %r{^(?:lib)/} =~ f
+  end + %w[README.md]
   s.extra_rdoc_files = ['README.md']
   s.require_paths = ['lib']
   s.requirements << 'shellcheck (in PATH)'
